@@ -1,0 +1,23 @@
+{
+  "name": "reddit_project",
+  "version": "1.0.0",
+  "main": "app.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon app.mjs",
+    "dev:tailwind": "npx tailwind -i ./public/css/input.css -o ./public/css/output.css --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-ejs-layouts": "^2.5.1",
+    "tailwindcss": "^3.4.17"
+  }
+}
