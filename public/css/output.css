@@ -554,12 +554,20 @@ video {
   display: none;
 }
 
+.ml-4 {
+  margin-left: 1rem;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
 
 .flex {
   display: flex;
+}
+
+.grid {
+  display: grid;
 }
 
 .h-\[32px\] {
@@ -570,10 +578,6 @@ video {
   height: 56px;
 }
 
-.h-4 {
-  height: 1rem;
-}
-
 .w-\[32px\] {
   width: 32px;
 }
@@ -582,46 +586,57 @@ video {
   width: 100%;
 }
 
-.w-7 {
-  width: 1.75rem;
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .items-center {
   align-items: center;
 }
 
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+.gap-2 {
+  gap: 0.5rem;
 }
 
-.bg-\[\] {
-  background-color: ;
+.justify-self-end {
+  justify-self: end;
 }
 
-.bg-\[\#\] {
-  background-color: #;
+.rounded-\[999px\] {
+  border-radius: 999px;
 }
 
-.bg-\[\#2\] {
-  background-color: #2;
+.rounded-full {
+  border-radius: 9999px;
 }
 
-.bg-\[\#2a\] {
-  background-color: #2a;
+.border-b-0 {
+  border-bottom-width: 0px;
 }
 
-.bg-\[\#2a3\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(34 170 51 / var(--tw-bg-opacity, 1));
+.border-b-\[0\] {
+  border-bottom-width: 0;
 }
 
-.bg-\[\#2a32\] {
-  background-color: #2a32;
+.border-b-\[0\.5px\] {
+  border-bottom-width: 0.5px;
 }
 
-.bg-\[\#2a323\] {
-  background-color: #2a323;
+.border-\[\#383B3C\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(56 59 60 / var(--tw-border-opacity, 1));
+}
+
+.border-b-\[\] {
+  border-bottom-color: ;
+}
+
+.border-b-\[0\.\] {
+  border-bottom-color: 0.;
+}
+
+.border-b-\[0\.5\] {
+  border-bottom-color: 0.5;
 }
 
 .bg-\[\#2a3236\] {
@@ -629,19 +644,19 @@ video {
   background-color: rgb(42 50 54 / var(--tw-bg-opacity, 1));
 }
 
-.px-\[\] {
-  padding-left: ;
-  padding-right: ;
+.bg-\[\#d93900\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(217 57 0 / var(--tw-bg-opacity, 1));
 }
 
-.px-\[1\] {
-  padding-left: 1;
-  padding-right: 1;
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
-.px-\[16\] {
-  padding-left: 16;
-  padding-right: 16;
+.px-\[14px\] {
+  padding-left: 14px;
+  padding-right: 14px;
 }
 
 .px-\[16px\] {
@@ -649,20 +664,22 @@ video {
   padding-right: 16px;
 }
 
-.text-\[22px\] {
-  font-size: 22px;
+.py-\[8px\] {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
-.font-black {
-  font-weight: 900;
+.text-\[22px\] {
+  font-size: 22px;
 }
 
 .font-bold {
   font-weight: 700;
 }
 
-.font-medium {
-  font-weight: 500;
+.text-\[\#88A0A7\] {
+  --tw-text-opacity: 1;
+  color: rgb(136 160 167 / var(--tw-text-opacity, 1));
 }
 
 .text-white {
