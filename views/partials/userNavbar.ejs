@@ -1,19 +1,31 @@
-<div class=" h-[56px] text-white grid grid-cols-3 items-center px-[16px] border-b-[0.5px] border-[#383B3C]"
+<style>
+    .floating-input:focus~label,
+    .floating-input:not(:placeholder-shown)~label {
+        transform: translateY(-1.5rem) scale(0.75);
+    }
+
+    .floating-input::placeholder {
+        color: transparent;
+    }
+</style>
+
+<div class=" h-[56px] w-full text-white flex justify-between items-center px-[16px] border-b-[0.5px] border-[#383B3C] fixed top-0"
     style="background-color: var(--primary-color);">
-    <div class="flex items-center">
+    <div class="flex items-center cursor-pointer">
         <img src="/images/RDDT.png" alt="logo" class="w-[32px] h-[32px] mr-2">
-        <h1 class="text-[22px] font-bold" style="font-family: 'Reddit Sans', sans-serif;">reddit</h1>
+        <h1 class="text-[28px] font-bold" style="font-family: 'Reddit Sans', sans-serif;">reddit</h1>
     </div>
 
-    <div class="">
-        <div class="flex gap-2 px-3 bg-[#2a3236] rounded-full items-center">
+    <div class="w-full max-w-[560px]">
+        <div class="flex gap-2 px-3 bg-[#2a3236] hover:bg-[#3d494eb0] rounded-full items-center ">
             <i class="fas fa-search text-[#88A0A7]"></i>
-            <input type="text" class="py-[8px] w-full bg-[#2a3236] rounded-full" placeholder="Search Reddit">
+            <input type="text" class="py-[8px] w-full bg-transparent rounded-full placeholder:text-sm outline-none"
+                placeholder="Search Reddit">
         </div>
     </div>
 
     <div class="flex justify-self-end gap-2">
-        <div class="flex gap-2 bg-[#2a3236] px-[14px] py-[8px] rounded-full">
+        <div class="flex gap-2 bg-[#2a3236] hover:bg-[#3d494eb0] px-[14px] py-[8px] rounded-full cursor-pointer">
             <div class="">
                 <svg rpl="" fill="currentColor" height="20" icon-name="qr-code-outline" viewBox="0 0 20 20" width="20"
                     xmlns="http://www.w3.org/2000/svg">
@@ -26,11 +38,176 @@
                 Get App
             </div>
         </div>
-        <div class="rounded-[999px] px-3 py-[8px] flex items-center bg-[#d93900]">
+        <div id="loginBtn"
+            class="rounded-[999px] px-3 py-[8px] flex items-center bg-[#d93900] hover:bg-[#ae2c00] cursor-pointer">
             <span>Log In</span>
         </div>
-        <div class="flex items-center ml-4">
+        <div id="menu" class="flex items-center hover:bg-[#3d494eb0] p-3 rounded-full cursor-pointer">
             <i class="fas fa-ellipsis-h"></i>
+        </div>
+
+        <!-- Settings Menu -->
+        <div id="toggleMenu" class="absolute min-w-[256px] rounded-lg top-[56px] right-3 hidden">
+            <ul class="bg-[#181C1F] w-full rounded-lg">
+                <li class="px-5 py-4 text-[#dbe4e9] hover:text-[#ffffff] cursor-pointer">
+                    <div class="flex gap-4">
+                        <svg rpl="" fill="currentColor" height="20" icon-name="logout-outline" viewBox="0 0 20 20"
+                            width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.991 10.625H1v-1.25h10.991l-1.933-1.933.884-.884 3 3a.624.624 0 0 1 0 .884l-3 3-.884-.884 1.933-1.933ZM15.375 1h-9.75A2.629 2.629 0 0 0 3 3.625v.792h1.25v-.792A1.377 1.377 0 0 1 5.625 2.25h9.75a1.377 1.377 0 0 1 1.375 1.375v12.75a1.377 1.377 0 0 1-1.375 1.375h-9.75a1.377 1.377 0 0 1-1.375-1.375v-.792H3v.792A2.63 2.63 0 0 0 5.625 19h9.75A2.63 2.63 0 0 0 18 16.375V3.625A2.63 2.63 0 0 0 15.375 1Z">
+                            </path>
+                        </svg>
+                        <span class="text-sm ">Log In/Sign Up</span>
+                    </div>
+                </li>
+                <li class="px-5 py-4 text-[#dbe4e9] hover:text-[#ffffff] cursor-pointer">
+                    <div class="flex gap-4">
+                        <svg rpl="" fill="currentColor" height="20" icon-name="conversion" viewBox="0 0 20 20"
+                            width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M6.75799 11.0341L7.34299 12.4641C6.50628 12.3459 5.71928 11.9962 5.07089 11.4543C4.4225 10.9124 3.93855 10.2001 3.67371 9.39764C3.40887 8.59521 3.3737 7.73471 3.57217 6.91334C3.77063 6.09198 4.19483 5.34248 4.79684 4.74951C5.39885 4.15653 6.15468 3.74372 6.97895 3.5577C7.80323 3.37168 8.66309 3.41986 9.46142 3.69681C10.2598 3.97375 10.9647 4.46842 11.4967 5.12494C12.0287 5.78145 12.3665 6.57366 12.472 7.41205L11.054 6.81805C10.8579 6.31223 10.5393 5.863 10.1267 5.51068C9.7142 5.15836 9.22065 4.91397 8.69037 4.79945C8.16009 4.68492 7.60967 4.70383 7.0885 4.8545C6.56733 5.00516 6.09172 5.28285 5.70435 5.66266C5.31697 6.04247 5.02995 6.51251 4.86904 7.0306C4.70813 7.5487 4.67836 8.09864 4.7824 8.63107C4.88645 9.16351 5.12105 9.66179 5.46516 10.0812C5.80928 10.5006 6.25213 10.828 6.75399 11.0341H6.75799ZM3.22699 12.7721C2.60032 12.1453 2.10325 11.4012 1.76415 10.5823C1.42505 9.76335 1.25056 8.88568 1.25066 7.99934C1.25084 6.20931 1.96211 4.49266 3.22799 3.22705C4.49387 1.96144 6.21066 1.25053 8.0007 1.25072C9.79073 1.2509 11.5074 1.96217 12.773 3.22805C13.4019 3.85308 13.9005 4.59672 14.2398 5.41587C14.5792 6.23502 14.7526 7.11339 14.75 8.00005C14.75 8.12105 14.739 8.24005 14.732 8.36005L15.95 8.87005C15.9823 8.58116 15.9989 8.29074 16 8.00005C16 6.41776 15.5309 4.87098 14.6518 3.55534C13.7728 2.23969 12.5233 1.21426 11.0615 0.60874C9.59965 0.00321448 7.99107 -0.155213 6.43919 0.153493C4.8873 0.462199 3.46181 1.22417 2.34299 2.34305C1.22411 3.46187 0.462138 4.88736 0.153432 6.43925C-0.155274 7.99113 0.00315344 9.59971 0.608679 11.0616C1.2142 12.5234 2.23963 13.7729 3.55528 14.6519C4.87092 15.5309 6.4177 16.0001 7.99999 16.0001C8.25799 16.0001 8.51566 15.9877 8.77299 15.9631L8.27299 14.7381C7.34155 14.7782 6.41195 14.6241 5.54325 14.2857C4.67455 13.9472 3.88576 13.4318 3.22699 12.7721ZM12.851 19.9131L14.051 17.0391L16.072 19.0501C16.2032 19.181 16.3811 19.2546 16.5665 19.2546C16.7519 19.2546 16.9298 19.181 17.061 19.0501L18.947 17.1801C19.0789 17.0497 19.1537 16.8724 19.155 16.687C19.1564 16.5016 19.0841 16.3232 18.954 16.1911L16.96 14.1531L19.46 13.1291C19.5877 13.0759 19.6969 12.986 19.7736 12.8709C19.8503 12.7557 19.8911 12.6204 19.891 12.4821L19.852 12.0001L8.71099 7.26205C8.51114 7.17944 8.29138 7.15756 8.07916 7.19915C7.86695 7.24075 7.6717 7.34398 7.51783 7.49593C7.36396 7.64788 7.25829 7.84181 7.21404 8.05348C7.16978 8.26516 7.18889 8.48518 7.26899 8.68605L11.717 19.5251C11.7696 19.6532 11.8591 19.7628 11.9741 19.8401C12.0891 19.9174 12.2245 19.9588 12.363 19.9591L12.851 19.9131ZM17.764 12.4771L14.772 13.7001L17.684 16.6771L16.572 17.7771L13.621 14.8391L12.371 17.8201L8.61299 8.64205L17.764 12.4771Z"
+                                fill="currentColor"></path>
+                        </svg>
+                        <span class="text-sm ">Advertise on Reddit</span>
+                    </div>
+                </li>
+                <li class="text-[#dbe4e9] hover:text-[#ffffff] px-5 py-4 cursor-pointer">
+                    <div class="flex gap-4">
+                        <svg rpl="" fill="currentColor" height="20" icon-name="topic-marketplace-outline"
+                            viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19 7.627v9.777A2.617 2.617 0 0 1 16.307 20H3.745a2.675 2.675 0 0 1-2.719-2.62L1 7.627a.627.627 0 0 1 .625-.626h2.187v1.25H2.251l.025 9.124a1.423 1.423 0 0 0 1.469 1.373h12.562a1.385 1.385 0 0 0 1.443-1.345V8.251h-1.563v-1.25h2.188a.625.625 0 0 1 .625.626ZM8.013 7.002v1.25h3.974v-1.25H8.013ZM15 4.627a4.828 4.828 0 0 0-5-4.624 4.83 4.83 0 0 0-5 4.624v5.3h1.25v-5.3A3.58 3.58 0 0 1 10 1.253a3.581 3.581 0 0 1 3.75 3.374v5.3H15v-5.3Z">
+                            </path>
+                        </svg>
+                        <span class="text-sm ">Shop collectible Avatars</span>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
+
+<div id="loginModal" class="w-screen h-screen fixed inset-0 flex justify-center items-center hidden">
+    <div class="absolute inset-0 bg-[#181C1F] opacity-30"></div>
+    <div class="max-w-[528px] w-full h-[41rem] rounded-lg bg-[#181C1F] relative">
+        <div id="closeLoginModal" class="p-3 rounded-full bg-[#2A3236] w-fit absolute top-4 right-4 cursor-pointer">
+            <svg rpl="" fill="currentColor" height="16" icon-name="close-outline" viewBox="0 0 20 20" width="16"
+                xmlns="http://www.w3.org/2000/svg" class="text-white">
+                <path
+                    d="m18.442 2.442-.884-.884L10 9.116 2.442 1.558l-.884.884L9.116 10l-7.558 7.558.884.884L10 10.884l7.558 7.558.884-.884L10.884 10l7.558-7.558Z">
+                </path>
+            </svg>
+        </div>
+        <div class="w-full px-[80px] mt-8">
+            <h1 class="text-[#EEF1F3] text-[24px] font-bold mb-[8px]">Log In</h1>
+            <p class="text-[#EEF1F3] text-[14px] mb-[8px]">By continuing, you agree to our <span
+                    class="text-[#648EFC] hover:underline cursor-pointer">User Agreement</span> and
+                acknowledge that you understand the
+                <span class="text-[#648EFC] hover:underline cursor-pointer">Privacy Policy</span>.
+            </p>
+            <div class="mt-[16px] flex flex-col gap-2">
+                <div class="w-full bg-white rounded-full py-[12px] px-4">
+                    <a href="" class="flex gap-2 justify-center items-center">
+                        <svg rpl="" fill="currentColor" height="20" icon-name="phone-outline" viewBox="0 0 20 20"
+                            width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M15.368 0H4.625A1.627 1.627 0 0 0 3 1.625v16.743A1.634 1.634 0 0 0 4.632 20h10.736A1.633 1.633 0 0 0 17 18.368V1.632A1.634 1.634 0 0 0 15.368 0ZM4.625 1.25h10.743a.382.382 0 0 1 .382.382V15.75H4.25V1.625a.375.375 0 0 1 .375-.375Zm10.743 17.5H4.632a.382.382 0 0 1-.382-.382V17h11.5v1.368a.382.382 0 0 1-.382.382Zm-3.413-14.5H8V3h3.955v1.25Z">
+                            </path>
+                        </svg>
+                        <p class="text-[#131313] text-sm font-thin">Continue With Phone Number</p>
+                    </a>
+                </div>
+                <div class="w-full bg-white rounded-full py-[12px] px-4">
+                    <a href="" class="flex gap-2 justify-center items-center pointer">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_307_552)">
+                                <path
+                                    d="M23.766 12.2765C23.766 11.4608 23.6999 10.6406 23.5588 9.83813H12.24V14.4591H18.7217C18.4528 15.9495 17.5885 17.2679 16.323 18.1056V21.104H20.19C22.4608 19.014 23.766 15.9274 23.766 12.2765Z"
+                                    fill="#4285F4" />
+                                <path
+                                    d="M12.2401 24.0008C15.4766 24.0008 18.2059 22.9382 20.1945 21.1039L16.3276 18.1055C15.2517 18.8375 13.8627 19.252 12.2445 19.252C9.11388 19.252 6.45946 17.1399 5.50705 14.3003H1.5166V17.3912C3.55371 21.4434 7.7029 24.0008 12.2401 24.0008Z"
+                                    fill="#34A853" />
+                                <path
+                                    d="M5.50253 14.3002C4.99987 12.8099 4.99987 11.196 5.50253 9.70569V6.61475H1.51649C-0.18551 10.0055 -0.18551 14.0004 1.51649 17.3912L5.50253 14.3002Z"
+                                    fill="#FBBC04" />
+                                <path
+                                    d="M12.2401 4.74966C13.9509 4.7232 15.6044 5.36697 16.8434 6.54867L20.2695 3.12262C18.1001 1.0855 15.2208 -0.034466 12.2401 0.000808666C7.7029 0.000808666 3.55371 2.55822 1.5166 6.61481L5.50264 9.70575C6.45064 6.86173 9.10947 4.74966 12.2401 4.74966Z"
+                                    fill="#EA4335" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_307_552">
+                                    <rect width="24" height="24" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <p class="text-[#131313] text-sm font-thin">Continue With Google</p>
+                    </a>
+                </div>
+                <a href="" class="w-full bg-white rounded-full py-[12px] px-4">
+                    <div class="flex gap-2 justify-center">
+                        <i class="fab fa-apple text-black text-xl"></i>
+                        <p class="text-[#131313] text-sm font-thin">Continue With Apple</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="flex items-center my-6">
+                <hr class="w-1/2 border-slate-400">
+                <p class="mx-2 text-[#82ABAD] text-[12px]">OR</p>
+                <hr class="w-1/2 border-slate-400">
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <div class="w-full rounded-2xl py-4 bg-[#2A3236] relative">
+                    <input type="text" id="email" placeholder="placeholder"
+                        class="floating-input px-4 w-full outline-none bg-transparent text-white peer" />
+                    <label for="email"
+                        class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 transition-all duration-200 cursor-text peer-focus:-translate-y-7 peer-focus:scale-75 peer-focus:text-gray-400">
+                        Email or Username <span class="text-red-500">*</span>
+                    </label>
+                </div>
+
+                <div class="w-full rounded-2xl py-4 bg-[#2A3236] relative">
+                    <input type="password" id="password" placeholder="placeholder"
+                        class="floating-input px-4 w-full outline-none bg-transparent text-white peer" />
+                    <label for="password"
+                        class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 transition-all duration-200 cursor-text peer-focus:-translate-y-7 peer-focus:scale-75 peer-focus:text-gray-400">
+                        Password <span class="text-red-500">*</span>
+                    </label>
+                </div>
+
+                <a href="" class="text-sm text-[#648EFC] hover:text-sky-500 mt-4">Forgot password?</a>
+                <span class="text-white text-sm">New to Reddit? <a href=""
+                        class="text-[#648EFC] hover:text-sky-500 ml-1">Sign
+                        Up</a>
+                </span>
+
+                <button class="w-full  bg-[#d93900] hover:bg-[#ae2c00] text-white rounded-full py-[12px] mt-3">Log
+                    In</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+<script>
+    // For toggling settings menu.
+    document.getElementById('menu').addEventListener('click', function () {
+        const toggleMenu = document.getElementById('toggleMenu');
+        toggleMenu.classList.toggle('hidden');
+    });
+
+    // For toggling login/signUp modal.
+    document.getElementById('loginBtn').addEventListener('click', function () {
+        const loginModal = document.getElementById('loginModal');
+        loginModal.classList.remove('hidden');
+    });
+    document.getElementById('closeLoginModal').addEventListener('click', function () {
+        const loginModal = document.getElementById('loginModal');
+        loginModal.classList.add('hidden');
+    });
+    
+
+</script>
