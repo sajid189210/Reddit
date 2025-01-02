@@ -7,6 +7,16 @@
     .floating-input::placeholder {
         color: transparent;
     }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
 </style>
 
 <div class=" h-[56px] w-full text-white flex justify-between items-center px-[16px] border-b-[0.5px] border-[#383B3C] fixed top-0"
@@ -46,7 +56,7 @@
             <i class="fas fa-ellipsis-h"></i>
         </div>
 
-        <!-- Settings Menu -->
+        <!--? Settings Menu -->
         <div id="toggleMenu" class="absolute min-w-[256px] rounded-lg top-[56px] right-3 hidden">
             <ul class="bg-[#181C1F] w-full rounded-lg">
                 <li class="px-5 py-4 text-[#dbe4e9] hover:text-[#ffffff] cursor-pointer">
@@ -87,9 +97,11 @@
     </div>
 </div>
 
-<div id="loginModal" class="w-screen h-screen fixed inset-0 flex justify-center items-center hidden">
+<!--? Login Modal -->
+<div id="loginModal" class="w-screen h-screen fixed inset-0 flex justify-center items-center hidden relative">
     <div class="absolute inset-0 bg-[#181C1F] opacity-30"></div>
     <div class="max-w-[528px] w-full h-[41rem] rounded-lg bg-[#181C1F] relative">
+        <!-- For Login -->
         <div id="closeLoginModal" class="p-3 rounded-full bg-[#2A3236] w-fit absolute top-4 right-4 cursor-pointer">
             <svg rpl="" fill="currentColor" height="16" icon-name="close-outline" viewBox="0 0 20 20" width="16"
                 xmlns="http://www.w3.org/2000/svg" class="text-white">
@@ -98,7 +110,18 @@
                 </path>
             </svg>
         </div>
-        <div class="w-full px-[80px] mt-8">
+
+        <!-- For OTP verify Modal -->
+        <div id="goBAckToSignUp" class="rounded-full text-white w-fit absolute top-6 left-8 cursor-pointer hidden">
+            <svg rpl="" fill="currentColor" height="20" icon-name="back-outline" viewBox="0 0 20 20" width="20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M19 9.375H2.51l7.932-7.933-.884-.884-9 9a.625.625 0 0 0 0 .884l9 9 .884-.884-7.933-7.933H19v-1.25Z">
+                </path>
+            </svg>
+        </div>
+
+        <div id="loginActionContainer" class="w-full px-[80px] mt-8">
             <h1 class="text-[#EEF1F3] text-[24px] font-bold mb-[8px]">Log In</h1>
             <p class="text-[#EEF1F3] text-[14px] mb-[8px]">By continuing, you agree to our <span
                     class="text-[#648EFC] hover:underline cursor-pointer">User Agreement</span> and
@@ -158,8 +181,8 @@
             </div>
 
             <div class="flex flex-col gap-3">
-                <div class="w-full rounded-2xl py-4 bg-[#2A3236] relative">
-                    <input type="text" id="email" placeholder="placeholder"
+                <div id="emailContainer" class="w-full rounded-2xl py-4 bg-[#2A3236] relative">
+                    <input type="email" id="email" placeholder="placeholder"
                         class="floating-input px-4 w-full outline-none bg-transparent text-white peer" />
                     <label for="email"
                         class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 transition-all duration-200 cursor-text peer-focus:-translate-y-7 peer-focus:scale-75 peer-focus:text-gray-400">
@@ -167,7 +190,7 @@
                     </label>
                 </div>
 
-                <div class="w-full rounded-2xl py-4 bg-[#2A3236] relative">
+                <div id="passwordContainer" class="w-full rounded-2xl py-4 bg-[#2A3236] relative">
                     <input type="password" id="password" placeholder="placeholder"
                         class="floating-input px-4 w-full outline-none bg-transparent text-white peer" />
                     <label for="password"
@@ -176,38 +199,187 @@
                     </label>
                 </div>
 
-                <a href="" class="text-sm text-[#648EFC] hover:text-sky-500 mt-4">Forgot password?</a>
-                <span class="text-white text-sm">New to Reddit? <a href=""
-                        class="text-[#648EFC] hover:text-sky-500 ml-1">Sign
-                        Up</a>
+                <a id="forgotPassword" href="" class="text-sm text-[#648EFC] hover:text-sky-500 mt-4">Forgot
+                    password?</a>
+                <span id="userStateMessage" class="text-white text-sm">New to Reddit?
+                    <span id="signUP" class="text-[#648EFC] hover:text-sky-500 ml-1 cursor-pointer">Sign Up</span>
                 </span>
 
-                <button class="w-full  bg-[#d93900] hover:bg-[#ae2c00] text-white rounded-full py-[12px] mt-3">Log
-                    In</button>
+                <button id="signupBtn" data-status="LogIn"
+                    class="w-full mt-auto bg-[#ffffff0c] text-[#ffffff3f] rounded-full py-[12px] mt-3" disabled>
+                    Log In</button>
             </div>
         </div>
-    </div>
 
+        <!-- For OTP Verification modal -->
+        <div id="otpActionContainer" class="w-full px-[80px] mt-8 hidden">
+            <h1 class="text-[#EEF1F3] text-[24px] font-bold mb-[8px] mt-[60px]">Verify your Email</h1>
+            <p id="otpVerificationMessage" class="text-[#EEF1F3] text-[14px] mb-[8px]"></p>
+
+            <div id="otpContainer" class="w-full rounded-2xl py-4 bg-[#2A3236] relative mt-6 hidden">
+                <input type="text" id="otp" placeholder="placeholder"
+                    class="floating-input px-4 w-full outline-none bg-transparent text-white peer" />
+                <label for="otp"
+                    class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 transition-all duration-200 cursor-text peer-focus:-translate-y-7 peer-focus:scale-75 peer-focus:text-gray-400">
+                    Enter OTP <span class="text-red-500">*</span>
+                </label>
+            </div>
+
+            <div id="animateSpin"
+                class="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-spin absolute top-[32%] left-[42%] transform -translate-x-1/2 -translate-y-1/2">
+            </div>
+        </div>
+
+        <div id="verifyOTP" class="absolute bottom-8 w-full flex flex-col items-center gap-3 hidden">
+            <p class="text-white text-sm">
+                Didn't get an email?<span class="underline ml-4 cursor-pointer">Resend</span>
+            </p>
+            <button class="w-[368px] mt-auto bg-[#ffffff0c] text-[#ffffff3f] rounded-full py-[12px] mt-3" disabled>
+                Continue</button>
+        </div>
+
+    </div>
 </div>
-</div>
+
 
 
 <script>
-    // For toggling settings menu.
-    document.getElementById('menu').addEventListener('click', function () {
-        const toggleMenu = document.getElementById('toggleMenu');
-        toggleMenu.classList.toggle('hidden');
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // For toggling settings menu.
+        document.getElementById('menu').addEventListener('click', function () {
+            document.getElementById('toggleMenu').classList.toggle('hidden');
+        });
+
+        // For toggling login/signUp modal.
+        document.getElementById('loginBtn').addEventListener('click', function () {
+            document.getElementById('loginModal').classList.remove('hidden');
+        });
+
+        // For closing Login Modal.
+        document.getElementById('closeLoginModal').addEventListener('click', function () {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.querySelector('#verifyOTP').classList.add('hidden');
+        });
+
+        // for go back to login from otp.
+        document.querySelector('#goBAckToSignUp').addEventListener('click', function (event) {
+            document.querySelector('#otpActionContainer').classList.add('hidden');
+            document.querySelector('#closeLoginModal').classList.remove('hidden');
+            document.querySelector('#loginActionContainer').classList.remove('hidden');
+            event.target.classList.add('hidden');
+        });
+
+        // For when change to Sign Up.
+        document.querySelector('#signUP').addEventListener('click', function (event) {
+            const passwordContainer = document.getElementById('passwordContainer');
+            const emailContainer = document.getElementById('emailContainer');
+            const userStateMessage = document.getElementById('userStateMessage');
+            const forgotPassword = document.getElementById('forgotPassword');
+            const signupBtn = document.getElementById('signupBtn');
+            const signUP = document.getElementById('signUP');
+
+            let status = signupBtn.dataset.status;
+
+            // Clear input fields.
+            passwordContainer.querySelector('input').value = '';
+            emailContainer.querySelector('input').value = '';
+
+            // Toggle visibility of password and forgot password.
+            passwordContainer.classList.toggle('hidden');
+            forgotPassword.classList.toggle('hidden');
+
+            // Update user state message
+            userStateMessage.firstChild.textContent = 'Already a redditor?';
+
+            // Update button and data-status
+            if (status === 'LogIn') {
+                signupBtn.dataset.status = 'signUp';
+                signupBtn.textContent = 'Continue';
+            } else {
+                signupBtn.dataset.status = 'LogIn';
+                signupBtn.textContent = 'Log In';
+            }
+
+            // Change Sign Up to Log In
+            signUP.textContent = 'Log In';
+        });
+
+        // validates the email live.
+        document.querySelector('#email').addEventListener('input', function (event) {
+            const emailInput = event.target.value;
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const button = document.getElementById('signupBtn');
+
+            if (emailRegex.test(emailInput)) {
+                button.disabled = false;
+                button.classList.remove('bg-[#ffffff0c]', 'text-[#ffffff3f]');
+                button.classList.add('bg-[#d93900]', 'hover:bg-[#ae2c00]', 'text-white');
+            } else {
+                button.disabled = true;
+                button.classList.remove('bg-[#d93900]', 'hover:bg-[#ae2c00]', 'text-white');
+                button.classList.add('bg-[#ffffff0c]', 'text-[#ffffff3f]');
+            }
+        });
+
+        // Modal Button functionalities.
+        // Submitting the credentials.
+        document.querySelector('#signupBtn').addEventListener('click', function (event) {
+            const loginActionContainer = document.querySelector('#loginActionContainer');
+            const otpActionContainer = document.querySelector('#otpActionContainer');
+            const closeLoginModal = document.querySelector('#closeLoginModal');
+            const goBAckToSignUp = document.querySelector('#goBAckToSignUp');
+
+            const passwordInput = document.querySelector('#password').value.trim();
+            const emailInput = document.querySelector('#email').value.trim();
+
+            const status = event.target.dataset.status;
+            try {
+                if (emailInput && passwordInput && status === 'LogIn') {
+                    axios.post('/login', {
+                        email: emailInput,
+                        password: passwordInput
+                    });
+                } else if (emailInput && !passwordInput && status === 'signUp') {
+                    loginActionContainer.classList.add('hidden');
+                    otpActionContainer.classList.remove('hidden');
+                    closeLoginModal.classList.add('hidden');
+                    goBAckToSignUp.classList.remove('hidden');
+
+                    axios.post('/signUp', {
+                        email: emailInput,
+                    }).then((response) => {
+                        otpActionContainer.querySelector("#otpVerificationMessage").textContent = response.data.message;
+                        document.querySelector('#animateSpin').classList.add('hidden');
+                        document.querySelector('#otpContainer').classList.remove('hidden');
+                        document.querySelector('#verifyOTP').classList.remove('hidden');
+                    }).catch((err) => {
+                        console.error(err);
+                        otpActionContainer.querySelector("#otpVerificationMessage").textContent = "An error occurred. Please try again.";
+                    });
+                }
+            } catch (err) {
+                alert('Error');
+                console.error(err);
+            }
+        });
+
+        document.querySelector('#otp').addEventListener('input', async function (event) {
+            const otp = event.target.value.trim();
+
+            axios.post('/verifyOTP', { otpInput: otp })
+                .then((response) => {
+                    if(response){
+
+                    }
+                })
+                .catch((err) => {
+                    console.log(err.response.data);
+
+                })
+        })
+
     });
 
-    // For toggling login/signUp modal.
-    document.getElementById('loginBtn').addEventListener('click', function () {
-        const loginModal = document.getElementById('loginModal');
-        loginModal.classList.remove('hidden');
-    });
-    document.getElementById('closeLoginModal').addEventListener('click', function () {
-        const loginModal = document.getElementById('loginModal');
-        loginModal.classList.add('hidden');
-    });
-    
 
 </script>
